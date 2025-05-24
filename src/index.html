@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Boot Switcher</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: #1b1e2b;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 2rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #fbf5ef;
+    }
+
+    h3 {
+      margin-top: -50px;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      gap: 2rem;
+    }
+
+    .boot-option {
+      background: #272a3a;
+      border: 2px solid #7e3dd3;
+      border-radius: 16px;
+      padding: 2rem;
+      width: 260px;
+      text-align: center;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .boot-option:hover {
+      transform: translateY(-6px);
+      border-color: #e291ff;
+    }
+
+    .boot-option i {
+      font-size: 3.2rem;
+      margin-bottom: 1rem;
+      color: #c25aff;
+    }
+
+    .boot-option p {
+      margin: 0;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+    <h1 id="sbm">Select a boot mode</h1>
+    <h3 id="yswr">Your system will restart after you make a selection</h3>
+    <div class="container" id="container">
+      <div class="boot-option" id="boot-desktop">
+        <i class="fas fa-desktop"></i>
+        <p>Boot in desktop mode</p>
+      </div>
+      <div class="boot-option" id="boot-game">
+        <i class="fas fa-gamepad"></i>
+        <p>Boot in game mode (gamescope)</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+<script>
+  const { ipcRenderer } = require("electron")
+
+  document.getElementById("boot-desktop").addEventListener("click", () => {
+    ipcRenderer.send("boot-desktop")
+    document.getElementById("container").outerHTML = ""
+    document.getElementById("sbm").innerText = "Please wait"
+    document.getElementById("yswr").innerText = "Applying changes..."
+  })
+  document.getElementById("boot-game").addEventListener("click", () => {
+    ipcRenderer.send("boot-game")
+    document.getElementById("container").outerHTML = ""
+    document.getElementById("sbm").innerText = "Please wait"
+    document.getElementById("yswr").innerText = "Applying changes..."
+  })
+</script>
